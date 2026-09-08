@@ -1,0 +1,6 @@
+{
+  "name": "FlixFilm",
+  "description": "Stream movies and TV series in HD, free. New titles added every day.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
