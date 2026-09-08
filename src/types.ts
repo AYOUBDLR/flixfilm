@@ -8,6 +8,8 @@ export interface Episode {
   duration: string;
   thumbnail: string;
   overview: string;
+  releaseDate?: string;
+  releaseTime?: string;
 }
 
 export interface MediaItem {
@@ -22,6 +24,7 @@ export interface MediaItem {
   status: 'Released' | 'Ongoing' | 'Completed';
   language: string;
   releaseDate: string;
+  releaseTime?: string;
   overview: string;
   posterUrl: string;
   backdropUrl: string;
