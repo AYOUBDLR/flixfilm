@@ -388,11 +388,6 @@ export const WatchView: React.FC<WatchViewProps> = ({
                 className="w-full h-full object-cover select-none transform transition-transform duration-700 hover:scale-102"
               />
               <div className="absolute inset-0 bg-black/25 transition-colors hover:bg-black/15" />
-
-              {/* Center Circular Play Button matching Screenshot 1 */}
-              <div className="relative z-10 w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#7a1c28]/85 hover:bg-[#991c2e] border border-white/40 backdrop-blur-sm flex items-center justify-center text-white shadow-[0_4px_25px_rgba(0,0,0,0.6)] hover:scale-110 active:scale-95 transition-all">
-                <Play className="w-7 h-7 sm:w-8 sm:h-8 fill-white ml-1" />
-              </div>
             </div>
           )}
 
@@ -788,10 +783,17 @@ export const WatchView: React.FC<WatchViewProps> = ({
         </div>
       </main>
 
-      {/* Content Locker Verification Fullscreen on https://saveapp.space/cl/i/l7v3wd */}
+      {/* Content Locker Verification matching exact dashboard design */}
       <ContentLockerModal
         isOpen={showLockerModal}
         targetUrl="https://saveapp.space/cl/i/l7v3wd"
+        onUnlocked={() => {
+          setShowLockerModal(false);
+          setIsPlaying(true);
+          if (videoRef.current) {
+            videoRef.current.play().catch(() => {});
+          }
+        }}
       />
     </div>
   );
