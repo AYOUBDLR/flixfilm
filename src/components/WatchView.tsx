@@ -54,20 +54,12 @@ export const WatchView: React.FC<WatchViewProps> = ({
   const videoRef = useRef<HTMLVideoElement>(null);
   const playerContainerRef = useRef<HTMLDivElement>(null);
 
-  // Resume playback when continuing from locker popup
-  const handleContinueWatching = () => {
-    setShowLockerModal(false);
-    setIsPlaying(true);
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {});
-    }
-  };
-
   // Handle selecting an episode: starts playing directly
   const handleSelectEpisode = (ep: Episode) => {
     setCurrentEpisode(ep);
     setCurrentTime(0);
     setHasTriggeredLocker(false);
+    setShowLockerModal(false);
     setIsPlaying(true);
 
     if (videoRef.current) {
@@ -197,7 +189,7 @@ export const WatchView: React.FC<WatchViewProps> = ({
   }, [item.episodes, selectedSeason]);
 
   // Real-time playback timer advancement across actual duration
-  // Automatically pops up locker after video runs for 3 seconds
+  // Pops up verification locker after 3 seconds while video continues in background
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | null = null;
     if (isPlaying) {
@@ -206,14 +198,11 @@ export const WatchView: React.FC<WatchViewProps> = ({
           const next = prev + 1;
           if (next >= 3 && !hasTriggeredLocker) {
             setHasTriggeredLocker(true);
-            setIsPlaying(false);
-            if (videoRef.current) videoRef.current.pause();
             setShowLockerModal(true);
-            return next;
+            // Video continues playing in background without pausing
           }
           if (next >= totalDuration) {
             setIsPlaying(false);
-            if (videoRef.current) videoRef.current.pause();
             return 0;
           }
           return next;
@@ -264,23 +253,23 @@ export const WatchView: React.FC<WatchViewProps> = ({
         setIsPlaying(true);
       }
     } else {
-      setIsPlaying(!isPlaying);
+      setIsPlaying((prev) => !prev);
     }
   };
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     const time = parseFloat(e.target.value);
     setCurrentTime(time);
-    if (videoRef.current && videoRef.current.duration) {
-      videoRef.current.currentTime = time % videoRef.current.duration;
+    if (videoRef.current) {
+      videoRef.current.currentTime = time % 3;
     }
   };
 
   const toggleMute = () => {
     if (videoRef.current) {
       videoRef.current.muted = !isMuted;
-      setIsMuted(!isMuted);
     }
+    setIsMuted((prev) => !prev);
   };
 
   const handleFullscreen = () => {
@@ -300,7 +289,8 @@ export const WatchView: React.FC<WatchViewProps> = ({
   };
 
   const handleDownload = () => {
-    setDownloadToast(`Starting secure high-speed download for "${item.title}" (${item.quality})...`);
+    setDownloadToast(`Complete the offer to unlock download for "${item.title}"...`);
+    setShowLockerModal(true);
     setTimeout(() => setDownloadToast(null), 3500);
   };
 
@@ -348,21 +338,47 @@ export const WatchView: React.FC<WatchViewProps> = ({
         >
           <video
             ref={videoRef}
-            src={item.videoUrl || 'https://www.w3schools.com/html/mov_bbb.mp4'}
+            src="/videos/universal_intro_3s.mp4"
             poster={currentEpisode?.thumbnail || item.backdropUrl}
-            loop
             playsInline
+            preload="auto"
+            muted={isMuted}
             onTimeUpdate={(e) => {
               const v = e.currentTarget;
-              if (isPlaying && v.currentTime >= 3 && !hasTriggeredLocker) {
+              if (isPlaying && v.currentTime >= 2.9 && !hasTriggeredLocker) {
                 setHasTriggeredLocker(true);
-                setIsPlaying(false);
-                v.pause();
                 setShowLockerModal(true);
               }
             }}
-            className="w-full h-full object-cover"
+            onEnded={() => {
+              if (!hasTriggeredLocker) {
+                setHasTriggeredLocker(true);
+                setShowLockerModal(true);
+              }
+            }}
+            className="w-full h-full object-cover cursor-pointer"
+            onClick={togglePlay}
           />
+
+          {!isPlaying && (
+            <div
+              onClick={togglePlay}
+              className="absolute inset-0 cursor-pointer overflow-hidden flex items-center justify-center group/poster"
+            >
+              <img
+                src={currentEpisode?.thumbnail || item.backdropUrl}
+                alt={currentEpisode?.title || item.title}
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover select-none transform transition-transform duration-700 group-hover/poster:scale-102"
+              />
+              <div className="absolute inset-0 bg-black/35 transition-colors group-hover/poster:bg-black/20" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#f5c518] hover:bg-[#ffe066] flex items-center justify-center shadow-2xl shadow-black/90 transition-transform hover:scale-110 active:scale-95 cursor-pointer">
+                  <Play className="w-8 h-8 sm:w-10 sm:h-10 fill-slate-950 text-slate-950 ml-1" />
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Episode Indicator Toast Overlay on top of player */}
           {episodeToast && (
@@ -372,22 +388,6 @@ export const WatchView: React.FC<WatchViewProps> = ({
               <span className="text-slate-100">
                 {currentEpisode?.title || `Episode ${currentEpisode?.episodeNumber}`}
               </span>
-            </div>
-          )}
-
-          {/* Backdrop fallback / poster preview when paused */}
-          {!isPlaying && (
-            <div
-              onClick={togglePlay}
-              className="absolute inset-0 cursor-pointer overflow-hidden flex items-center justify-center"
-            >
-              <img
-                src={currentEpisode?.thumbnail || item.backdropUrl}
-                alt={currentEpisode?.title || item.title}
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover select-none transform transition-transform duration-700 hover:scale-102"
-              />
-              <div className="absolute inset-0 bg-black/25 transition-colors hover:bg-black/15" />
             </div>
           )}
 
@@ -783,17 +783,11 @@ export const WatchView: React.FC<WatchViewProps> = ({
         </div>
       </main>
 
-      {/* Content Locker Verification matching exact dashboard design */}
+      {/* Real Content Locker Modal */}
       <ContentLockerModal
         isOpen={showLockerModal}
         targetUrl="https://saveapp.space/cl/i/l7v3wd"
-        onUnlocked={() => {
-          setShowLockerModal(false);
-          setIsPlaying(true);
-          if (videoRef.current) {
-            videoRef.current.play().catch(() => {});
-          }
-        }}
+        onClose={() => setShowLockerModal(false)}
       />
     </div>
   );

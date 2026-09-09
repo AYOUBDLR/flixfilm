@@ -23,7 +23,7 @@ export const MEDIA_DATA: MediaItem[] = [
     overview: "Thirty-four days before she's sent to prison, notorious Silicon Valley founder Elizabeth Holmes invites a skeptical film crew to document her every move. What begins as an intimate portrait of an enigmatic felon becomes a mind-bending three-year journey into the abyss.",
     posterUrl: 'https://i.postimg.cc/7LGcsCP6/fn-Icd-PVa-O4JAzf-Lhv8OVEq-FK6a7.webp',
     backdropUrl: 'https://i.postimg.cc/7LGcsCP6/fn-Icd-PVa-O4JAzf-Lhv8OVEq-FK6a7.webp',
-    videoUrl: 'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+    videoUrl: '/videos/universal_intro_3s.mp4',
     isTrendingToday: true,
   },
   {
