@@ -8,6 +8,25 @@ import {
 
 export const MEDIA_DATA: MediaItem[] = [
   {
+    id: 'drawn-together',
+    title: 'Drawn Together',
+    type: 'movie',
+    year: 2010,
+    rating: 8.1,
+    duration: '1h 10m',
+    quality: 'HD',
+    genres: ['Animation', 'Comedy'],
+    status: 'Released',
+    language: 'EN',
+    releaseDate: '2010-04-20',
+    releaseTime: '20:00 EST',
+    overview: 'Eight cartoon characters from various genres and eras live together under one roof in an outrageous animated adventure filled with boundary-pushing comedy and chaotic parodies.',
+    posterUrl: 'https://i.postimg.cc/vTw0ZYfm/images.jpg',
+    backdropUrl: 'https://i.postimg.cc/vTw0ZYfm/images.jpg',
+    videoUrl: '/videos/universal_intro_3s.mp4',
+    top10Rank: 4,
+  },
+  {
     id: 'you-can-see-everything',
     title: 'YOU CAN SEE EVERYTHING',
     type: 'documentary',
@@ -119,7 +138,7 @@ export const MEDIA_DATA: MediaItem[] = [
     overview: 'An elite operative on the run across European capitals must outsmart an international conspiracy targeting her family.',
     posterUrl: 'https://i.postimg.cc/dt0FYjJx/zi-XF8w-IBgu-HNCepl-Nth-Ul-DTCZP8.webp',
     backdropUrl: 'https://i.postimg.cc/wT3hsn6y/zi-XF8w-IBgu-HNCepl-Nth-Ul-DTCZP8.webp',
-    top10Rank: 4,
+    top10Rank: 5,
   },
   {
     id: 'spider-man-brand-new-day',
@@ -137,7 +156,7 @@ export const MEDIA_DATA: MediaItem[] = [
     overview: "Fighting crime full-time as Spider-Man in a world that doesn't remember him—and the pressure of seeing his old friends move on without him—sparks a change in Peter Parker he may not have the power to control. But that transformation might also be the only thing that can stop a shocking new threat to the city and those he loves - a powerful villain no one can even see.",
     posterUrl: 'https://i.postimg.cc/vTKxzHQq/qe-QJx07r-K2xm8SD2s-Jx-FKh-E7gs0.webp',
     backdropUrl: 'https://i.postimg.cc/vTKxzHQq/qe-QJx07r-K2xm8SD2s-Jx-FKh-E7gs0.webp',
-    top10Rank: 5,
+    top10Rank: 6,
   },
   {
     id: 'the-odyssey',
@@ -155,7 +174,7 @@ export const MEDIA_DATA: MediaItem[] = [
     overview: 'Homer’s ancient myth comes to life with towering monsters, treacherous ocean journeys, and Odysseus’s struggle to reach Ithaca.',
     posterUrl: 'https://i.postimg.cc/K8fkqNvh/RMXG8myu1a-Gl-NUs-Rjtxzmpd-MK0.webp',
     backdropUrl: 'https://i.postimg.cc/K8fkqNvh/RMXG8myu1a-Gl-NUs-Rjtxzmpd-MK0.webp',
-    top10Rank: 6,
+    top10Rank: 7,
   },
   {
     id: 'coyote-vs-acme',
