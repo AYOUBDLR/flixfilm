@@ -315,7 +315,7 @@ export const WatchView: React.FC<WatchViewProps> = ({
               <Play className="w-3.5 h-3.5 fill-slate-950 ml-0.5" />
             </div>
             <span className="font-display text-xl font-bold tracking-wider text-white">
-              FLIXFILM
+              FLIXZEN
             </span>
           </button>
         </div>
@@ -777,9 +777,9 @@ export const WatchView: React.FC<WatchViewProps> = ({
         {/* Disclaimer Legal Notice matching footer */}
         <div className="mt-16 pt-8 border-t border-white/5 text-center text-xs text-slate-500 space-y-2">
           <p>
-            FLIXFILM does not host any files on its servers. All media is linked from third-party services.
+            FLIXZEN does not host any files on its servers. All media is linked from third-party services.
           </p>
-          <p>© 2026 FLIXFILM. All rights reserved.</p>
+          <p>© 2026 FLIXZEN. All rights reserved.</p>
         </div>
       </main>
 

@@ -30,7 +30,10 @@ export default function App() {
   // Favorites state persisted in localStorage
   const [favorites, setFavorites] = useState<string[]>(() => {
     try {
-      const saved = localStorage.getItem('flixfilm_favorites') || localStorage.getItem('fypflix_favorites');
+      const saved =
+        localStorage.getItem('flixzen_favorites') ||
+        localStorage.getItem('flixfilm_favorites') ||
+        localStorage.getItem('fypflix_favorites');
       return saved ? JSON.parse(saved) : ['the-runner', 'spider-man-brand-new-day'];
     } catch {
       return ['the-runner', 'spider-man-brand-new-day'];
@@ -39,7 +42,7 @@ export default function App() {
 
   useEffect(() => {
     try {
-      localStorage.setItem('flixfilm_favorites', JSON.stringify(favorites));
+      localStorage.setItem('flixzen_favorites', JSON.stringify(favorites));
     } catch {
       // storage unavailable
     }

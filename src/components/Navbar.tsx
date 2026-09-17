@@ -33,7 +33,7 @@ export const Navbar: React.FC<NavbarProps> = ({
               <Play className="w-4 h-4 fill-slate-950 ml-0.5" />
             </div>
             <span className="font-display text-2xl font-bold tracking-wider text-white">
-              FLIXFILM
+              FLIXZEN
             </span>
           </button>
 

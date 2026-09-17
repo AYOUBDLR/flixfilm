@@ -22,7 +22,7 @@ export const Footer: React.FC<FooterProps> = ({ onSelectTab, onLogoClick }) => {
                 <Play className="w-4 h-4 fill-slate-950 ml-0.5" />
               </div>
               <span className="font-display text-2xl font-bold tracking-wider text-white">
-                FLIXFILM
+                FLIXZEN
               </span>
             </button>
             <p className="text-slate-400 text-sm max-w-sm leading-relaxed">
@@ -77,14 +77,14 @@ export const Footer: React.FC<FooterProps> = ({ onSelectTab, onLogoClick }) => {
               LEGAL
             </h4>
             <p className="text-slate-400 text-xs leading-relaxed">
-              FLIXFILM does not host any files on its servers. All media is linked from third-party services.
+              FLIXZEN does not host any files on its servers. All media is linked from third-party services.
             </p>
           </div>
         </div>
 
         {/* Copyright */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-400 gap-4">
-          <p>© 2026 FLIXFILM. All rights reserved.</p>
+          <p>© 2026 FLIXZEN. All rights reserved.</p>
         </div>
       </div>
     </footer>
