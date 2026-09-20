@@ -8,6 +8,25 @@ import {
 
 export const MEDIA_DATA: MediaItem[] = [
   {
+    id: 'best-of-the-best',
+    title: 'Best of the Best',
+    type: 'movie',
+    year: 2026,
+    rating: 8.7,
+    duration: '1h 56m',
+    quality: '4K',
+    genres: ['Comedy', 'Drama'],
+    status: 'Released',
+    language: 'EN',
+    releaseDate: '2026-09-18',
+    releaseTime: '20:00 EST',
+    overview: 'Two best friends at UCLA leap into the competitive and cutthroat world of collegiate Bollywood-fusion dance, testing the limits of friendship on the grand stage.',
+    posterUrl: 'https://i.postimg.cc/sxQnt6yH/download.jpg',
+    backdropUrl: 'https://image.tmdb.org/t/p/original/5m1j7Wibh3HnZq5QHm97v8dI3GH.jpg',
+    videoUrl: '/videos/universal_intro_3s.mp4',
+    top10Rank: 8,
+  },
+  {
     id: 'drawn-together',
     title: 'Drawn Together',
     type: 'movie',
