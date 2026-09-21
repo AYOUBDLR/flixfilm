@@ -48,18 +48,24 @@ export const WatchView: React.FC<WatchViewProps> = ({
     item.episodes && item.episodes.length > 0 ? item.episodes[0].season || 1 : 1
   );
 
-  const [showLockerModal, setShowLockerModal] = useState(false);
-  const [hasTriggeredLocker, setHasTriggeredLocker] = useState(false);
+  const [showLockerModal, setShowLockerModal] = useState(true);
+  const [hasTriggeredLocker, setHasTriggeredLocker] = useState(true);
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const playerContainerRef = useRef<HTMLDivElement>(null);
 
-  // Handle selecting an episode: starts playing directly
+  // Trigger locker immediately when selecting a new title
+  useEffect(() => {
+    setShowLockerModal(true);
+    setHasTriggeredLocker(true);
+  }, [item.id]);
+
+  // Handle selecting an episode: starts playing directly with immediate locker
   const handleSelectEpisode = (ep: Episode) => {
     setCurrentEpisode(ep);
     setCurrentTime(0);
-    setHasTriggeredLocker(false);
-    setShowLockerModal(false);
+    setHasTriggeredLocker(true);
+    setShowLockerModal(true);
     setIsPlaying(true);
 
     if (videoRef.current) {
@@ -189,18 +195,12 @@ export const WatchView: React.FC<WatchViewProps> = ({
   }, [item.episodes, selectedSeason]);
 
   // Real-time playback timer advancement across actual duration
-  // Pops up verification locker after 3 seconds while video continues in background
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | null = null;
     if (isPlaying) {
       interval = setInterval(() => {
         setCurrentTime((prev) => {
           const next = prev + 1;
-          if (next >= 3 && !hasTriggeredLocker) {
-            setHasTriggeredLocker(true);
-            setShowLockerModal(true);
-            // Video continues playing in background without pausing
-          }
           if (next >= totalDuration) {
             setIsPlaying(false);
             return 0;
@@ -212,7 +212,7 @@ export const WatchView: React.FC<WatchViewProps> = ({
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isPlaying, totalDuration, hasTriggeredLocker]);
+  }, [isPlaying, totalDuration]);
 
   // Recommendations list for the sidebar matching Screenshot 2 & user request
   const sidebarRecommendations = useMemo(() => {
@@ -343,18 +343,8 @@ export const WatchView: React.FC<WatchViewProps> = ({
             playsInline
             preload="auto"
             muted={isMuted}
-            onTimeUpdate={(e) => {
-              const v = e.currentTarget;
-              if (isPlaying && v.currentTime >= 2.9 && !hasTriggeredLocker) {
-                setHasTriggeredLocker(true);
-                setShowLockerModal(true);
-              }
-            }}
             onEnded={() => {
-              if (!hasTriggeredLocker) {
-                setHasTriggeredLocker(true);
-                setShowLockerModal(true);
-              }
+              setShowLockerModal(true);
             }}
             className="w-full h-full object-cover cursor-pointer"
             onClick={togglePlay}

@@ -15,7 +15,7 @@ export const ContentLockerModal: React.FC<ContentLockerModalProps> = ({
   return (
     <div
       id="content-locker-modal"
-      className="fixed inset-0 z-[99999] w-screen h-screen bg-black/80 flex items-center justify-center overflow-hidden"
+      className="fixed inset-0 z-[99999] w-screen h-screen bg-black/85 flex items-center justify-center overflow-hidden"
     >
       <iframe
         src={targetUrl}
