@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Star, Play, Heart, Film } from 'lucide-react';
 import { MediaItem } from '../types';
 
@@ -20,6 +20,13 @@ export const MovieCard: React.FC<MovieCardProps> = ({
   const [isHovered, setIsHovered] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [imgSrc, setImgSrc] = useState(item.posterUrl);
+
+  useEffect(() => {
+    setImgSrc(item.posterUrl);
+    setImageError(false);
+    setImageLoaded(false);
+  }, [item.posterUrl]);
 
   return (
     <div
@@ -41,13 +48,19 @@ export const MovieCard: React.FC<MovieCardProps> = ({
         {/* Poster Image */}
         {!imageError ? (
           <img
-            src={item.posterUrl}
+            src={imgSrc}
             alt={item.title}
             loading="lazy"
             decoding="async"
             referrerPolicy="no-referrer"
             onLoad={() => setImageLoaded(true)}
-            onError={() => setImageError(true)}
+            onError={() => {
+              if (item.id === 'the-love-hypothesis' && imgSrc !== '/assets/the_love_hypothesis_poster.jpg') {
+                setImgSrc('/assets/the_love_hypothesis_poster.jpg');
+              } else {
+                setImageError(true);
+              }
+            }}
             className={`w-full h-full object-cover transition-all duration-500 group-hover:scale-105 ${
               imageLoaded ? 'opacity-100' : 'opacity-0'
             }`}

@@ -17,6 +17,7 @@ import {
 import { MediaItem, Episode } from '../types';
 import { MEDIA_DATA } from '../data/movies';
 import { ContentLockerModal } from './ContentLockerModal';
+import { PlayerLoadingScreen } from './PlayerLoadingScreen';
 
 interface WatchViewProps {
   item: MediaItem;
@@ -48,30 +49,61 @@ export const WatchView: React.FC<WatchViewProps> = ({
     item.episodes && item.episodes.length > 0 ? item.episodes[0].season || 1 : 1
   );
 
-  const [showLockerModal, setShowLockerModal] = useState(true);
-  const [hasTriggeredLocker, setHasTriggeredLocker] = useState(true);
+  const [showLockerModal, setShowLockerModal] = useState(false);
+  const [hasTriggeredLocker, setHasTriggeredLocker] = useState(false);
+  const [isPlayerLoading, setIsPlayerLoading] = useState(false);
 
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const loadingTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const playerContainerRef = useRef<HTMLDivElement>(null);
 
-  // Trigger locker immediately when selecting a new title
+  // Starts movie playback with the authentic loading beginning scene
+  const startMoviePlayback = (ep?: Episode) => {
+    if (ep) {
+      setCurrentEpisode(ep);
+    }
+    setCurrentTime(0);
+    setIsPlaying(true);
+    setIsPlayerLoading(true);
+    setShowLockerModal(false);
+
+    if (loadingTimerRef.current) {
+      clearTimeout(loadingTimerRef.current);
+    }
+
+    // 3-second loading animation when start is clicked
+    loadingTimerRef.current = setTimeout(() => {
+      setIsPlayerLoading(false);
+      setShowLockerModal(true);
+      setHasTriggeredLocker(true);
+    }, 3000);
+  };
+
+  // Reset player to initial ready-to-play state when movie or item changes
   useEffect(() => {
-    setShowLockerModal(true);
-    setHasTriggeredLocker(true);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    const firstEp = item.episodes && item.episodes.length > 0 ? item.episodes[0] : null;
+    setCurrentEpisode(firstEp);
+    setSelectedSeason(firstEp?.season || 1);
+    setCurrentTime(0);
+    setIsPlaying(false);
+    setIsPlayerLoading(false);
+    setShowLockerModal(false);
+    setHasTriggeredLocker(false);
+
+    if (loadingTimerRef.current) {
+      clearTimeout(loadingTimerRef.current);
+    }
+
+    return () => {
+      if (loadingTimerRef.current) {
+        clearTimeout(loadingTimerRef.current);
+      }
+    };
   }, [item.id]);
 
-  // Handle selecting an episode: starts playing directly with immediate locker
+  // Handle selecting an episode: starts playing with loading beginning scene
   const handleSelectEpisode = (ep: Episode) => {
-    setCurrentEpisode(ep);
-    setCurrentTime(0);
-    setHasTriggeredLocker(true);
-    setShowLockerModal(true);
-    setIsPlaying(true);
-
-    if (videoRef.current) {
-      videoRef.current.currentTime = 0;
-      videoRef.current.play().catch(() => {});
-    }
+    startMoviePlayback(ep);
 
     if (playerContainerRef.current) {
       playerContainerRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -167,18 +199,6 @@ export const WatchView: React.FC<WatchViewProps> = ({
     return `${currentFormatted} / ${totalFormatted}`;
   };
 
-  // Scroll to top and reset timer on load or item change
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    setIsPlaying(false);
-    setCurrentTime(0);
-    setHasTriggeredLocker(false);
-    setShowLockerModal(false);
-    const firstEp = item.episodes && item.episodes.length > 0 ? item.episodes[0] : null;
-    setCurrentEpisode(firstEp);
-    setSelectedSeason(firstEp?.season || 1);
-  }, [item.id]);
-
   // Compute available seasons and episodes for selected season
   const availableSeasons = useMemo(() => {
     if (!item.episodes || item.episodes.length === 0) return [1];
@@ -197,7 +217,7 @@ export const WatchView: React.FC<WatchViewProps> = ({
   // Real-time playback timer advancement across actual duration
   useEffect(() => {
     let interval: ReturnType<typeof setInterval> | null = null;
-    if (isPlaying) {
+    if (isPlaying && !isPlayerLoading) {
       interval = setInterval(() => {
         setCurrentTime((prev) => {
           const next = prev + 1;
@@ -212,7 +232,7 @@ export const WatchView: React.FC<WatchViewProps> = ({
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isPlaying, totalDuration]);
+  }, [isPlaying, isPlayerLoading, totalDuration]);
 
   // Recommendations list for the sidebar matching Screenshot 2 & user request
   const sidebarRecommendations = useMemo(() => {
@@ -244,31 +264,23 @@ export const WatchView: React.FC<WatchViewProps> = ({
   }, [item.id, item.genres]);
 
   const togglePlay = () => {
-    if (videoRef.current) {
-      if (isPlaying) {
-        videoRef.current.pause();
-        setIsPlaying(false);
-      } else {
-        videoRef.current.play().catch(() => {});
-        setIsPlaying(true);
+    if (isPlaying) {
+      if (loadingTimerRef.current) {
+        clearTimeout(loadingTimerRef.current);
       }
+      setIsPlaying(false);
+      setIsPlayerLoading(false);
     } else {
-      setIsPlaying((prev) => !prev);
+      startMoviePlayback();
     }
   };
 
   const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
     const time = parseFloat(e.target.value);
     setCurrentTime(time);
-    if (videoRef.current) {
-      videoRef.current.currentTime = time % 3;
-    }
   };
 
   const toggleMute = () => {
-    if (videoRef.current) {
-      videoRef.current.muted = !isMuted;
-    }
     setIsMuted((prev) => !prev);
   };
 
@@ -336,29 +348,26 @@ export const WatchView: React.FC<WatchViewProps> = ({
           ref={playerContainerRef}
           className="group relative w-full aspect-[16/9] md:aspect-[2.05/1] rounded-2xl overflow-hidden bg-black border border-white/10 shadow-2xl"
         >
-          <video
-            ref={videoRef}
-            src="/videos/universal_intro_3s.mp4"
-            poster={currentEpisode?.thumbnail || item.backdropUrl}
-            playsInline
-            preload="auto"
-            muted={isMuted}
-            onEnded={() => {
-              setShowLockerModal(true);
-            }}
-            className="w-full h-full object-cover cursor-pointer"
-            onClick={togglePlay}
-          />
-
-          {!isPlaying && (
+          {/* Active Player / Loading Scene - Replaces the old beginning scene */}
+          {isPlayerLoading ? (
+            <PlayerLoadingScreen text="Player is loading..." />
+          ) : isPlaying ? (
+            <PlayerLoadingScreen text="Player is loading..." />
+          ) : (
             <div
-              onClick={togglePlay}
+              onClick={() => startMoviePlayback()}
               className="absolute inset-0 cursor-pointer overflow-hidden flex items-center justify-center group/poster"
             >
               <img
                 src={currentEpisode?.thumbnail || item.backdropUrl}
                 alt={currentEpisode?.title || item.title}
                 referrerPolicy="no-referrer"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  if (item.id === 'the-love-hypothesis' && !target.src.includes('the_love_hypothesis_backdrop')) {
+                    target.src = '/assets/the_love_hypothesis_backdrop.webp';
+                  }
+                }}
                 className="w-full h-full object-cover select-none transform transition-transform duration-700 group-hover/poster:scale-102"
               />
               <div className="absolute inset-0 bg-black/35 transition-colors group-hover/poster:bg-black/20" />
@@ -371,7 +380,7 @@ export const WatchView: React.FC<WatchViewProps> = ({
           )}
 
           {/* Episode Indicator Toast Overlay on top of player */}
-          {episodeToast && (
+          {episodeToast && !isPlayerLoading && (
             <div className="absolute top-4 left-4 z-30 flex items-center gap-2.5 bg-black/85 backdrop-blur-md border border-[#f5c518]/60 text-white px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold shadow-2xl animate-fade-in pointer-events-none">
               <div className="w-2.5 h-2.5 rounded-full bg-[#f5c518] animate-ping" />
               <span className="text-[#f5c518] font-bold">Now Playing:</span>
@@ -466,7 +475,7 @@ export const WatchView: React.FC<WatchViewProps> = ({
             onClick={togglePlay}
             className="px-10 sm:px-12 py-3 rounded-lg bg-[#f5c518] hover:bg-[#e0b000] text-slate-950 font-bold text-sm sm:text-base shadow-[0_0_20px_rgba(245,197,24,0.35)] transition-all cursor-pointer active:scale-95 text-center min-w-[160px]"
           >
-            {isPlaying ? 'Pause' : 'Watch Now'}
+            {isPlayerLoading ? 'Loading...' : isPlaying ? 'Pause' : 'Watch Now'}
           </button>
 
           <button
@@ -496,6 +505,12 @@ export const WatchView: React.FC<WatchViewProps> = ({
                   src={item.posterUrl}
                   alt={item.title}
                   referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (item.id === 'the-love-hypothesis' && !target.src.includes('the_love_hypothesis_poster.jpg')) {
+                      target.src = '/assets/the_love_hypothesis_poster.jpg';
+                    }
+                  }}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -743,6 +758,12 @@ export const WatchView: React.FC<WatchViewProps> = ({
                     src={rec.posterUrl}
                     alt={rec.title}
                     referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      if (rec.id === 'the-love-hypothesis' && !target.src.includes('the_love_hypothesis_poster.jpg')) {
+                        target.src = '/assets/the_love_hypothesis_poster.jpg';
+                      }
+                    }}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>

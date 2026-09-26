@@ -29,6 +29,12 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
           src={featuredItem.backdropUrl}
           alt={featuredItem.title}
           referrerPolicy="no-referrer"
+          onError={(e) => {
+            const target = e.currentTarget;
+            if (featuredItem.id === 'the-love-hypothesis' && !target.src.includes('the_love_hypothesis_backdrop')) {
+              target.src = '/assets/the_love_hypothesis_backdrop.webp';
+            }
+          }}
           className="w-full h-full object-cover object-center opacity-45 scale-105 transform transition-transform duration-1000"
         />
         {/* Gradients */}
@@ -134,6 +140,12 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
                       src={item.posterUrl}
                       alt={item.title}
                       referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        if (item.id === 'the-love-hypothesis' && !target.src.includes('the_love_hypothesis_poster.jpg')) {
+                          target.src = '/assets/the_love_hypothesis_poster.jpg';
+                        }
+                      }}
                       className="w-16 h-10 object-cover rounded"
                     />
                     <div className="pr-2 max-w-[120px]">

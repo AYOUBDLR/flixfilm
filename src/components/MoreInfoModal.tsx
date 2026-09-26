@@ -41,6 +41,12 @@ export const MoreInfoModal: React.FC<MoreInfoModalProps> = ({
             src={item.backdropUrl}
             alt={item.title}
             referrerPolicy="no-referrer"
+            onError={(e) => {
+              const target = e.currentTarget;
+              if (item.id === 'the-love-hypothesis' && !target.src.includes('the_love_hypothesis_backdrop')) {
+                target.src = '/assets/the_love_hypothesis_backdrop.webp';
+              }
+            }}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#071629] via-[#071629]/50 to-transparent" />
