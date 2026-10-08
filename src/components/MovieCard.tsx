@@ -57,6 +57,8 @@ export const MovieCard: React.FC<MovieCardProps> = ({
             onError={() => {
               if (item.id === 'the-love-hypothesis' && imgSrc !== '/assets/the_love_hypothesis_poster.jpg') {
                 setImgSrc('/assets/the_love_hypothesis_poster.jpg');
+              } else if (item.id === 'all-american' && imgSrc !== '/assets/all_american_poster.jpg') {
+                setImgSrc('/assets/all_american_poster.jpg');
               } else {
                 setImageError(true);
               }

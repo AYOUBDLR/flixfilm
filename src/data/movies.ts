@@ -4,6 +4,7 @@ import {
   SILO_EPISODES,
   REACHER_EPISODES,
   OUTER_BANKS_EPISODES,
+  ALL_AMERICAN_EPISODES,
 } from './seriesEpisodes';
 
 export const MEDIA_DATA: MediaItem[] = [
@@ -26,6 +27,28 @@ export const MEDIA_DATA: MediaItem[] = [
     videoUrl: '/videos/universal_intro_3s.mp4',
     isTrendingToday: true,
     top10Rank: 2,
+  },
+  {
+    id: 'all-american',
+    title: 'All American',
+    type: 'series',
+    year: 2018,
+    rating: 8.8,
+    duration: '8 Seasons',
+    quality: '4K',
+    genres: ['Drama', 'Sports'],
+    status: 'Released',
+    language: 'EN',
+    releaseDate: '2018-10-10',
+    releaseTime: '20:00 EST',
+    overview: "When a rising high school football player from South Crenshaw is recruited to play for Beverly Hills High, the wins, losses and struggles of two families from vastly different worlds — Compton and Beverly Hills — begin to collide. Inspired by the real life of pro football star Spencer Paysinger.",
+    posterUrl: 'https://static.tvmaze.com/uploads/images/original_untouched/507/1268403.jpg',
+    backdropUrl: 'https://static.tvmaze.com/uploads/images/original_untouched/425/1064747.jpg',
+    videoUrl: '/videos/universal_intro_3s.mp4',
+    isTrendingToday: true,
+    top10Rank: 3,
+    seasonsCount: 8,
+    episodes: ALL_AMERICAN_EPISODES,
   },
   {
     id: 'you-me-against-the-world',
@@ -64,7 +87,6 @@ export const MEDIA_DATA: MediaItem[] = [
     posterUrl: 'https://i.postimg.cc/sxQnt6yH/download.jpg',
     backdropUrl: 'https://image.tmdb.org/t/p/original/5m1j7Wibh3HnZq5QHm97v8dI3GH.jpg',
     videoUrl: '/videos/universal_intro_3s.mp4',
-    top10Rank: 10,
   },
   {
     id: 'drawn-together',
@@ -83,7 +105,7 @@ export const MEDIA_DATA: MediaItem[] = [
     posterUrl: 'https://image.tmdb.org/t/p/original/6rpvddXbaQPOi0fB2HKWbZ3uUSg.jpg',
     backdropUrl: 'https://image.tmdb.org/t/p/original/i65y7cMae36K0giN0GRaMjAHUru.jpg',
     videoUrl: '/videos/universal_intro_3s.mp4',
-    top10Rank: 6,
+    top10Rank: 7,
   },
   {
     id: 'you-can-see-everything',
@@ -119,7 +141,7 @@ export const MEDIA_DATA: MediaItem[] = [
     overview: 'Two strangers find unexpected passion on an isolated Mediterranean coast as summer draws to an emotional conclusion.',
     posterUrl: 'https://image.tmdb.org/t/p/original/3PWJqDfygN0YNNjWsDUOXclCp3h.jpg',
     backdropUrl: 'https://image.tmdb.org/t/p/original/zFCWfU2ViMIm38G1W8UsnSpqmWn.jpg',
-    top10Rank: 3,
+    top10Rank: 4,
   },
   {
     id: 'its-buddy',
@@ -137,7 +159,7 @@ export const MEDIA_DATA: MediaItem[] = [
     overview: 'Join Buddy on an extraordinary high-spirited adventure full of heart, humor, and courage.',
     posterUrl: 'https://image.tmdb.org/t/p/original/szMG36D2cIxeQ7i5zRQbq0DnNDe.jpg',
     backdropUrl: 'https://image.tmdb.org/t/p/original/ytoLEl5yDaxB8AtZ52uKWjaQ9ql.jpg',
-    top10Rank: 4,
+    top10Rank: 5,
   },
   {
     id: 'love-island-usa',
@@ -155,7 +177,7 @@ export const MEDIA_DATA: MediaItem[] = [
     overview: 'Glamorous singles gather in a tropical villa in search of love, surviving recouplings, temptations, and public votes.',
     posterUrl: 'https://image.tmdb.org/t/p/original/kU2y21cls8WargMaX7KI47URMjD.jpg',
     backdropUrl: 'https://image.tmdb.org/t/p/original/m0TiLZ79RR19Zz0AZruQSBeH39x.jpg',
-    top10Rank: 5,
+    top10Rank: 6,
     seasonsCount: 8,
     episodes: LOVE_ISLAND_EPISODES,
   },
@@ -196,7 +218,7 @@ export const MEDIA_DATA: MediaItem[] = [
     overview: 'An elite operative on the run across European capitals must outsmart an international conspiracy targeting her family.',
     posterUrl: 'https://image.tmdb.org/t/p/original/uxCaBoYXsDC4A0SqTm3SISj0OwK.jpg',
     backdropUrl: 'https://image.tmdb.org/t/p/original/ziXF8wIBguHNCeplNthUlDTCZP8.jpg',
-    top10Rank: 7,
+    top10Rank: 8,
   },
   {
     id: 'spider-man-brand-new-day',
@@ -214,7 +236,7 @@ export const MEDIA_DATA: MediaItem[] = [
     overview: "Fighting crime full-time as Spider-Man in a world that doesn't remember him—and the pressure of seeing his old friends move on without him—sparks a change in Peter Parker he may not have the power to control. But that transformation might also be the only thing that can stop a shocking new threat to the city and those he loves - a powerful villain no one can even see.",
     posterUrl: 'https://image.tmdb.org/t/p/original/bjiS5ipwxb9JFy3XRRN4OAilSeX.jpg',
     backdropUrl: 'https://image.tmdb.org/t/p/original/qeQJx07rK2xm8SD2sJxFKhE7gs0.jpg',
-    top10Rank: 8,
+    top10Rank: 9,
   },
   {
     id: 'the-odyssey',
@@ -232,7 +254,7 @@ export const MEDIA_DATA: MediaItem[] = [
     overview: 'Homer’s ancient myth comes to life with towering monsters, treacherous ocean journeys, and Odysseus’s struggle to reach Ithaca.',
     posterUrl: 'https://image.tmdb.org/t/p/original/5rhTDKUhPYvpdQIijFIs5VoWsON.jpg',
     backdropUrl: 'https://image.tmdb.org/t/p/original/RMXG8myu1aGlNUsRjtxzmpdMK0.jpg',
-    top10Rank: 9,
+    top10Rank: 10,
   },
   {
     id: 'coyote-vs-acme',

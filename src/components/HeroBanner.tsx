@@ -33,6 +33,8 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
             const target = e.currentTarget;
             if (featuredItem.id === 'the-love-hypothesis' && !target.src.includes('the_love_hypothesis_backdrop')) {
               target.src = '/assets/the_love_hypothesis_backdrop.webp';
+            } else if (featuredItem.id === 'all-american' && !target.src.includes('all_american_backdrop.jpg')) {
+              target.src = '/assets/all_american_backdrop.jpg';
             }
           }}
           className="w-full h-full object-cover object-center opacity-45 scale-105 transform transition-transform duration-1000"
@@ -144,6 +146,8 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
                         const target = e.currentTarget;
                         if (item.id === 'the-love-hypothesis' && !target.src.includes('the_love_hypothesis_poster.jpg')) {
                           target.src = '/assets/the_love_hypothesis_poster.jpg';
+                        } else if (item.id === 'all-american' && !target.src.includes('all_american_poster.jpg')) {
+                          target.src = '/assets/all_american_poster.jpg';
                         }
                       }}
                       className="w-16 h-10 object-cover rounded"
