@@ -368,6 +368,8 @@ export const WatchView: React.FC<WatchViewProps> = ({
                     target.src = '/assets/the_love_hypothesis_backdrop.webp';
                   } else if (item.id === 'all-american' && !target.src.includes('all_american_backdrop.jpg')) {
                     target.src = '/assets/all_american_backdrop.jpg';
+                  } else if (item.id === 'haunted-hotel' && !target.src.includes('haunted_hotel_backdrop.jpg')) {
+                    target.src = '/assets/haunted_hotel_backdrop.jpg';
                   }
                 }}
                 className="w-full h-full object-cover select-none transform transition-transform duration-700 group-hover/poster:scale-102"
@@ -513,6 +515,8 @@ export const WatchView: React.FC<WatchViewProps> = ({
                       target.src = '/assets/the_love_hypothesis_poster.jpg';
                     } else if (item.id === 'all-american' && !target.src.includes('all_american_poster.jpg')) {
                       target.src = '/assets/all_american_poster.jpg';
+                    } else if (item.id === 'haunted-hotel' && !target.src.includes('haunted_hotel_poster.jpg')) {
+                      target.src = '/assets/haunted_hotel_poster.jpg';
                     }
                   }}
                   className="w-full h-full object-cover"
@@ -689,9 +693,17 @@ export const WatchView: React.FC<WatchViewProps> = ({
                           {/* 16:9 Episode Thumbnail */}
                           <div className="relative w-24 sm:w-36 aspect-video rounded-lg overflow-hidden shrink-0 bg-slate-800 border border-white/5">
                             <img
-                              src={ep.thumbnail}
+                              src={ep.thumbnail || item.backdropUrl}
                               alt={ep.title}
                               referrerPolicy="no-referrer"
+                              onError={(e) => {
+                                const target = e.currentTarget;
+                                if (item.id === 'haunted-hotel' && !target.src.includes('haunted_hotel_backdrop.jpg')) {
+                                  target.src = '/assets/haunted_hotel_backdrop.jpg';
+                                } else if (item.id === 'all-american' && !target.src.includes('all_american_backdrop.jpg')) {
+                                  target.src = '/assets/all_american_backdrop.jpg';
+                                }
+                              }}
                               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                             />
                             {/* Subtle play hover overlay */}
@@ -768,6 +780,8 @@ export const WatchView: React.FC<WatchViewProps> = ({
                         target.src = '/assets/the_love_hypothesis_poster.jpg';
                       } else if (rec.id === 'all-american' && !target.src.includes('all_american_poster.jpg')) {
                         target.src = '/assets/all_american_poster.jpg';
+                      } else if (rec.id === 'haunted-hotel' && !target.src.includes('haunted_hotel_poster.jpg')) {
+                        target.src = '/assets/haunted_hotel_poster.jpg';
                       }
                     }}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"

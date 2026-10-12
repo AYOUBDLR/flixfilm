@@ -59,6 +59,8 @@ export const MovieCard: React.FC<MovieCardProps> = ({
                 setImgSrc('/assets/the_love_hypothesis_poster.jpg');
               } else if (item.id === 'all-american' && imgSrc !== '/assets/all_american_poster.jpg') {
                 setImgSrc('/assets/all_american_poster.jpg');
+              } else if (item.id === 'haunted-hotel' && imgSrc !== '/assets/haunted_hotel_poster.jpg') {
+                setImgSrc('/assets/haunted_hotel_poster.jpg');
               } else {
                 setImageError(true);
               }

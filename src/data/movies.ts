@@ -5,6 +5,7 @@ import {
   REACHER_EPISODES,
   OUTER_BANKS_EPISODES,
   ALL_AMERICAN_EPISODES,
+  HAUNTED_HOTEL_EPISODES,
 } from './seriesEpisodes';
 
 export const MEDIA_DATA: MediaItem[] = [
@@ -49,6 +50,28 @@ export const MEDIA_DATA: MediaItem[] = [
     top10Rank: 3,
     seasonsCount: 8,
     episodes: ALL_AMERICAN_EPISODES,
+  },
+  {
+    id: 'haunted-hotel',
+    title: 'Haunted Hotel',
+    type: 'series',
+    year: 2025,
+    rating: 8.7,
+    duration: '2 Seasons',
+    quality: '4K',
+    genres: ['Animation', 'Comedy', 'Horror', 'Supernatural'],
+    status: 'Released',
+    language: 'EN',
+    releaseDate: '2025-09-19',
+    releaseTime: '20:00 EST',
+    overview: "A single mother of two struggles to run a haunted hotel with the help of her estranged brother, who is now one of the ghosts haunting the hotel and thinks the other ghosts have some pretty good ideas. Joined by an eccentric cast of spectral residents, the family tackles otherworldly chaos, demon training, haunted rooms, and uninvited visitors across two seasons.",
+    posterUrl: 'https://static.tvmaze.com/uploads/images/original_untouched/582/1455770.jpg',
+    backdropUrl: 'https://static.tvmaze.com/uploads/images/original_untouched/588/1471303.jpg',
+    videoUrl: '/videos/universal_intro_3s.mp4',
+    isTrendingToday: true,
+    top10Rank: 4,
+    seasonsCount: 2,
+    episodes: HAUNTED_HOTEL_EPISODES,
   },
   {
     id: 'you-me-against-the-world',

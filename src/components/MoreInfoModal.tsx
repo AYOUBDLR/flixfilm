@@ -47,6 +47,8 @@ export const MoreInfoModal: React.FC<MoreInfoModalProps> = ({
                 target.src = '/assets/the_love_hypothesis_backdrop.webp';
               } else if (item.id === 'all-american' && !target.src.includes('all_american_backdrop.jpg')) {
                 target.src = '/assets/all_american_backdrop.jpg';
+              } else if (item.id === 'haunted-hotel' && !target.src.includes('haunted_hotel_backdrop.jpg')) {
+                target.src = '/assets/haunted_hotel_backdrop.jpg';
               }
             }}
             className="w-full h-full object-cover"
